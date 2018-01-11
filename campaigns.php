@@ -16,17 +16,65 @@ if ( ! defined('CAMPAIGNS_BASE_DIR') ) {
     define('CAMPAIGNS_BASE_DIR', trailingslashit(plugin_dir_path(__FILE__)));
 }
 
+if ( ! defined('CAMPAIGNS_TABLE_NAME') ) {
+    global $wpdb;
+    define('CAMPAIGNS_TABLE_NAME', $wpdb->prefix . 'campaigns');
+}
+
 register_activation_hook(__FILE__, 'campaigns_activation_hook');
 register_deactivation_hook(__FILE__, 'campaigns_deactivation_hook');
 
+add_action('admin_menu', 'campaigns_admin_menu');
+add_action('campaigns_sync_event', function() {
+    require_once(CAMPAIGNS_BASE_DIR . 'lib/sync.php');
+    sync_campaigns();
+});
+
 function campaigns_activation_hook() {
-    require_once(CAMPAIGNS_BASE_DIR.'lib/database.php');
+    require_once(CAMPAIGNS_BASE_DIR . 'lib/database.php');
     setup_database_table();
+
+    require_once(CAMPAIGNS_BASE_DIR . 'lib/sync.php');
+    setup_sync();
+    sync_campaigns();
 }
 
 function campaigns_deactivation_hook() {
-    require_once(CAMPAIGNS_BASE_DIR.'lib/database.php');
+    require_once(CAMPAIGNS_BASE_DIR . 'lib/database.php');
     remove_database_table();
+
+    require_once(CAMPAIGNS_BASE_DIR . 'lib/sync.php');
+    remove_sync();
 }
 
+function campaigns_admin_menu() {
+    add_menu_page('Campaigns Plugin Settings', 'Campaigns Settings', 'administrator', __FILE__, 'campaigns_settings_page');
+
+    add_action('admin_init', 'campaigns_admin_init');
+}
+
+function campaigns_admin_init() {
+    register_setting('campaigns-settings', 'speakout_url');
+}
+
+function campaigns_settings_page() {
+?>
+    <div class="wrap">
+      <h1>Campaigns Settings Page</h1>
+      <form method="post" action="options.php">
+        <?php settings_fields( 'campaigns-settings' ); ?>
+        <?php do_settings_sections( 'campaigns-settings' ); ?>
+
+        <table class="form-table">
+            <tr valign="top">
+            <th scope="row">Speakout URL</th>
+            <td><input type='text' name='speakout_url' value="<?php echo esc_attr(get_option('speakout_url')) ?>" style="width: 60%;"></td>
+            </tr>
+        </table>
+
+        <?php submit_button(); ?>
+      </form>
+    </div>
+<?php
+}
 ?>
