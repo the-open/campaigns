@@ -16,11 +16,6 @@ if ( ! defined('CAMPAIGNS_BASE_DIR') ) {
     define('CAMPAIGNS_BASE_DIR', trailingslashit(plugin_dir_path(__FILE__)));
 }
 
-if ( ! defined('CAMPAIGNS_TABLE_NAME') ) {
-    global $wpdb;
-    define('CAMPAIGNS_TABLE_NAME', $wpdb->prefix . 'campaigns');
-}
-
 register_activation_hook(__FILE__, 'campaigns_activation_hook');
 register_deactivation_hook(__FILE__, 'campaigns_deactivation_hook');
 
@@ -30,19 +25,17 @@ add_action('campaigns_sync_event', function() {
     sync_campaigns();
 });
 
-function campaigns_activation_hook() {
-    require_once(CAMPAIGNS_BASE_DIR . 'lib/database.php');
-    setup_database_table();
+add_action('init', function() {
+    require_once(CAMPAIGNS_BASE_DIR . 'lib/campaign.php');
+    Campaign::create_post_type();
+});
 
+function campaigns_activation_hook() {
     require_once(CAMPAIGNS_BASE_DIR . 'lib/sync.php');
     setup_sync();
-    sync_campaigns();
 }
 
 function campaigns_deactivation_hook() {
-    require_once(CAMPAIGNS_BASE_DIR . 'lib/database.php');
-    remove_database_table();
-
     require_once(CAMPAIGNS_BASE_DIR . 'lib/sync.php');
     remove_sync();
 }

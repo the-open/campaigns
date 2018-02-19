@@ -24,7 +24,6 @@ class Speakout {
         if(!empty($campaigns)) {
             require_once(CAMPAIGNS_BASE_DIR . 'lib/campaign.php');
 
-            $date_time_format = 'Y-m-d\TH:i:s.u\Z';
             usort($campaigns, function($campaign1, $campaign2) {
                 return strtotime($campaign1->{'created '}) - strtotime($campaign2->{'created '});
             });

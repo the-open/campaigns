@@ -9,7 +9,6 @@
 function setup_sync() {
     if (! wp_next_scheduled ('campaigns_sync_event')) {
         wp_schedule_event(time(), 'hourly', 'campaigns_sync_event');
-        error_log("SCHEDULING EVENT!");
     }
 }
 
