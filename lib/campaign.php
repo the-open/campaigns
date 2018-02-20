@@ -2,24 +2,49 @@
 
 class Campaign {
 
-    static public function add($campaign_data) {
-        wp_insert_post([
+    static public function add_or_update($campaign_data) {
+        $posts = new WP_Query([
             'post_type' => 'campaign',
-            'post_title' => $campaign_data["name"],
-            'post_content' => $campaign_data["description"],
-            'post_status' => 'publish',
-            'post_date' => $campaign_data["created_at"],
-            'comment_status' => 'closed',
-            'ping_status' => 'closed',
-            'meta_input' => [
-                'external_id' => $campaign_data["external_id"],
-                'url' => $campaign_data["url"],
-                'source' => $campaign_data["source"],
-                'image' => $campaign_data["image"],
-                'actions' => $campaign_data["actions"],
-                'max_actions' => $campaign_data["max_actions"]
+            'meta_query' => [
+                'relation' => 'AND',
+                [
+                    'key' => 'external_id',
+                    'value' => $campaign_data["external_id"],
+                    'compare' => '='
+                ],
+                [
+                    'key' => 'source',
+                    'value' => $campaign_data["source"],
+                    'compare' => '='
+                ]
             ]
         ]);
+
+        if ( $posts->have_posts() ) {
+            $posts->the_post();
+            error_log(get_the_ID());
+        } else {
+            wp_insert_post([
+                'post_type' => 'campaign',
+                'post_title' => $campaign_data["name"],
+                'post_content' => $campaign_data["description"] || "",
+                'post_status' => 'publish',
+                'post_date' => $campaign_data["created_at"],
+                'comment_status' => 'closed',
+                'ping_status' => 'closed',
+                'meta_input' => [
+                    'external_id' => $campaign_data["external_id"],
+                    'url' => $campaign_data["url"],
+                    'source' => $campaign_data["source"],
+                    'image' => $campaign_data["image"],
+                    'actions' => $campaign_data["actions"],
+                    'max_actions' => $campaign_data["max_actions"]
+                ]
+            ]);
+        }
+
+        wp_reset_postdata();
+
     }
 
     static public function create_post_type() {

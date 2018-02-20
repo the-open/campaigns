@@ -40,7 +40,7 @@ class Speakout {
                     "max_actions" => 0
                 ];
 
-                Campaign::add($campaign_data);
+                Campaign::add_or_update($campaign_data);
             }
         }
     }
