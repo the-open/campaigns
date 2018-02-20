@@ -20,31 +20,36 @@ class Campaign {
             ]
         ]);
 
+        $post_content = (empty($campaign_data["description"])) ? "" : $campaign_data["description"];
+
+        $post_args = [
+            'post_type' => 'campaign',
+            'post_title' => $campaign_data["name"],
+            'post_content' => $post_content,
+            'post_status' => 'publish',
+            'post_date' => $campaign_data["created_at"],
+            'comment_status' => 'closed',
+            'ping_status' => 'closed',
+            'meta_input' => [
+                'external_id' => $campaign_data["external_id"],
+                'url' => $campaign_data["url"],
+                'source' => $campaign_data["source"],
+                'image' => $campaign_data["image"],
+                'actions' => $campaign_data["actions"],
+                'max_actions' => $campaign_data["max_actions"]
+            ]
+        ];
+
         if ( $posts->have_posts() ) {
             $posts->the_post();
-            error_log(get_the_ID());
+            wp_update_post(array_merge([
+                'ID' => get_the_ID()
+            ], $post_args));
         } else {
-            wp_insert_post([
-                'post_type' => 'campaign',
-                'post_title' => $campaign_data["name"],
-                'post_content' => $campaign_data["description"] || "",
-                'post_status' => 'publish',
-                'post_date' => $campaign_data["created_at"],
-                'comment_status' => 'closed',
-                'ping_status' => 'closed',
-                'meta_input' => [
-                    'external_id' => $campaign_data["external_id"],
-                    'url' => $campaign_data["url"],
-                    'source' => $campaign_data["source"],
-                    'image' => $campaign_data["image"],
-                    'actions' => $campaign_data["actions"],
-                    'max_actions' => $campaign_data["max_actions"]
-                ]
-            ]);
+            wp_insert_post($post_args);
         }
 
         wp_reset_postdata();
-
     }
 
     static public function create_post_type() {
