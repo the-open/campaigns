@@ -1,13 +1,16 @@
 {
-    "name": "the-open/campaigns",
-    "description": "Wordpress Plugin to pull Campaigns from External systems",
-    "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Hiemanshu Sharma",
-            "email": "hiemanshu@the-open.net"
-        }
-    ],
-    "require": {}
+  "name": "the-open/campaigns",
+  "description": "Wordpress Plugin to pull Campaigns from External systems",
+  "type": "wordpress-plugin",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Hiemanshu Sharma",
+      "email": "hiemanshu@the-open.net"
+    }
+  ],
+  "require": {
+    "php": ">=7.2",
+    "composer/installers": "~1.0"
+  }
 }
