@@ -25,6 +25,13 @@ function sync_campaigns() {
         require_once(CAMPAIGNS_BASE_DIR . 'lib/adapters/speakout.php');
         Speakout::sync();
     }
+
+    if( get_option('csl_url') ) {
+      error_log('Syncing campaigns with CSL');
+
+      require_once(CAMPAIGNS_BASE_DIR . 'lib/adapters/csl.php');
+      CSL::sync();
+    }
 }
 
 ?>

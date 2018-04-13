@@ -48,6 +48,7 @@ function campaigns_admin_menu() {
 
 function campaigns_admin_init() {
     register_setting('campaigns-settings', 'speakout_url');
+    register_setting('campaigns-settings', 'csl_url');
 }
 
 function campaigns_settings_page() {
@@ -62,6 +63,13 @@ function campaigns_settings_page() {
             <tr valign="top">
             <th scope="row">Speakout URL</th>
             <td><input type='text' name='speakout_url' value="<?php echo esc_attr(get_option('speakout_url')) ?>" style="width: 60%;"></td>
+            </tr>
+        </table>
+
+        <table class="form-table">
+            <tr valign="top">
+            <th scope="row">CSL URL</th>
+            <td><input type='text' name='csl_url' value="<?php echo esc_attr(get_option('csl_url')) ?>" style="width: 60%;"></td>
             </tr>
         </table>
 
