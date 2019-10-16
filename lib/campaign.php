@@ -3,6 +3,7 @@
 class Campaign {
 
     static public function add_or_update($campaign_data) {
+		  
         $posts = new WP_Query([
             'post_type' => 'campaign',
             'meta_query' => [
@@ -21,7 +22,7 @@ class Campaign {
         ]);
 
         $post_content = (empty($campaign_data["description"])) ? "" : $campaign_data["description"];
-
+            global $wpdb; 
         $post_args = [
             'post_type' => 'campaign',
             'post_title' => $campaign_data["name"],
@@ -46,7 +47,26 @@ class Campaign {
                 'ID' => get_the_ID()
             ], $post_args));
         } else {
-            wp_insert_post($post_args);
+            $result =wp_insert_post($post_args);
+			
+			$wpdb->query(
+					'DELETE  FROM wp_term_relationships
+					WHERE object_id = "'.$result.'"
+					'
+					);		
+			
+			
+			$retrieve_data = $wpdb->get_var('SELECT term_id FROM wp_terms WHERE slug = "'.$campaign_data["locale"].'"');
+
+			if ($retrieve_data !=''){
+				$lang_var = $retrieve_data;
+			}else{
+				$lang_var =4;
+			}			
+			
+			$sql = $wpdb->prepare( "INSERT INTO wp_term_relationships (object_id, term_taxonomy_id,term_order ) VALUES ( %d, %d, %d )", $result, $lang_var, 0 );
+			$res= $wpdb->query($sql);					
+				
         }
 
         wp_reset_postdata();

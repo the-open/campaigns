@@ -50,7 +50,8 @@ class CSL {
             "source" => "CSL",
             "image" => $campaign->image_url,
             "actions" => $campaign->signature_count,
-            "max_actions" => $campaign->goal
+            "max_actions" => $campaign->goal,
+			"locale" => $campaign->locale
           ];
           Campaign::add_or_update($campaign_data);
         }
