@@ -40,6 +40,7 @@ class Campaign {
                 'max_actions' => $campaign_data["max_actions"]
             ]
         ];
+						
 
         if ( $posts->have_posts() ) {
             $posts->the_post();
@@ -60,8 +61,10 @@ class Campaign {
 
 			if ($retrieve_data !=''){
 				$lang_var = $retrieve_data;
-			}else{
-				$lang_var =4;
+			}else{				
+				$defaultLanguage_get = pll_default_language();
+				$defaultLanguage_id = $wpdb->get_var('SELECT term_id FROM wp_terms WHERE slug = "'.$defaultLanguage_get.'"');
+				$lang_var =$defaultLanguage_id;
 			}			
 			
 			$sql = $wpdb->prepare( "INSERT INTO wp_term_relationships (object_id, term_taxonomy_id,term_order ) VALUES ( %d, %d, %d )", $result, $lang_var, 0 );
