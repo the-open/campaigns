@@ -50,9 +50,15 @@ class Campaign {
         } else {
             $result =wp_insert_post($post_args);
 			
+			
+			$defaultLanguage_get_d = pll_default_language();
+				$defaultLanguage_termid = $wpdb->get_var('SELECT term_id FROM wp_terms WHERE slug = "'.$defaultLanguage_get_d.'"');
+				$lang_var_taxon =$defaultLanguage_termid;
+				
+			
 			$wpdb->query(
 					'DELETE  FROM wp_term_relationships
-					WHERE object_id = "'.$result.'"
+					WHERE object_id = "'.$result.'" AND  term_taxonomy_id = "'.$lang_var_taxon.'"
 					'
 					);		
 			
