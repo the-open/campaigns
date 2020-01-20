@@ -27,7 +27,7 @@ class CSL {
 
     for($i = 1; $i <= $total_pages; $i++) {
       $json_url = $csl_json_url . '?page=' . $i;
-      $request = wp_remote_get( $csl_json_url );
+      $request = wp_remote_get( $json_url );
 
       if( is_wp_error($request) ) {
         error_log("ERROR FETCHING JSON FOR CSL");
