@@ -37,12 +37,31 @@ class Speakout {
                     "source" => "speakout",
                     "image" => $campaign->image,
                     "actions" => $campaign->actions,
-                    "max_actions" => 0
+                    "max_actions" => Speakout::campaign_target($campaign->actions),
                 ];
-
+                
                 Campaign::add_or_update($campaign_data);
             }
         }
     }
+
+    /**
+     *  This function was copied from Speakout to give a bogus campaign target as Speakout do not support this feature
+     */
+    private static function campaign_target($c){
+		$n = $c*(5.0/4.0);
+		$m = [2.0,2.5,2.0];
+		$target = 100.0;
+		$i=0;
+		while ($n > $target){
+			$target = $target * $m[$i%count($m)];
+			$i = $i + 1;
+		}
+
+		$target = (int)$target;
+
+		return $target;
+
+	}
 
 }
