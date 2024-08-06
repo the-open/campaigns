@@ -74,6 +74,7 @@ class Campaign {
                 'public' => true,
                 'show_in_menu' => true,
                 'menu_position' => 20,
+                'show_in_rest' => true,
                 'has_archive' => true,
                 'supports' => [
                     'title',
