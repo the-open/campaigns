@@ -1,14 +1,14 @@
 <?php
 /**
  * @package Campaigns
- * @version 0.1
+ * @version 0.2
  */
 
 /*
   Plugin Name: Campaigns
   Description: Pull and lists petitions from CSL and Speakout
-  Author: Hiemanshu Sharma
-  Version: 0.1
+  Author: Hiemanshu Sharma & Frances McMullin
+  Version: 0.2
   Text Domain: campaigns
 */
 

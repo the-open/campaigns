@@ -8,6 +8,10 @@
       "name": "Hiemanshu Sharma",
       "email": "hiemanshu@the-open.net"
     }
+    {
+      "name": "Frances McMullin",
+      "email": "frances@the-open.net"
+    }
   ],
   "require": {
     "php": ">=7.2",
