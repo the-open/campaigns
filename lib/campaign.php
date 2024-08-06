@@ -41,6 +41,8 @@ class Campaign {
         ];
 
         if ( $posts->have_posts() ) {
+            // Avoid overriding admin edits to publish date or status
+            unset($post_args['post_date'], $post_args['post_status']);
             $posts->the_post();
             wp_update_post(array_merge([
                 'ID' => get_the_ID()
