@@ -49,6 +49,7 @@ function campaigns_admin_menu() {
 function campaigns_admin_init() {
     register_setting('campaigns-settings', 'speakout_url');
     register_setting('campaigns-settings', 'csl_url');
+    register_setting('campaigns-settings', 'acf_post_type');
 }
 
 function campaigns_settings_page() {
@@ -72,6 +73,14 @@ function campaigns_settings_page() {
             <td><input type='text' name='csl_url' value="<?php echo esc_attr(get_option('csl_url')) ?>" style="width: 60%;"></td>
             </tr>
         </table>
+
+        <table class="form-table">
+            <tr valign="top">
+            <th scope="row">ACF Post Type: (Leave blank to not use ACF)</th>
+            <td><input type='text' name='acf_post_type' value="<?php echo esc_attr(get_option('acf_post_type')) ?>" style="width: 60%;"></td>
+            </tr>
+        </table>
+        <p>Note: if using ACF, ensure your chosen post type includes fields named external_id,url,source,image,actions and max_actions.</p>
 
         <?php submit_button(); ?>
       </form>
