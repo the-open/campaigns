@@ -78,35 +78,39 @@ class Campaign {
     }
 
     static public function create_post_type() {
-        register_post_type(
-            'campaign',
-            [
-                'labels' => [
-                    'name' => __('Campaigns'),
-                    'singular_name' => __('Campaign'),
-                    'add_new' => _x('Add New', 'campaign'),
-                    'add_new_item' => __('Add New Campaign'),
-                    'edit_item' => __('Edit Campaign'),
-                    'new_item' => __('New Campaign'),
-                    'view_item' => __('View Campaign'),
-                    'search_items' => __('Search Campaigns'),
-                    'not_found' =>  __('Nothing found'),
-                    'not_found_in_trash' => __('Nothing found in Trash')
-                ],
-                'description' => 'Campaigns',
-                'public' => true,
-                'show_in_menu' => true,
-                'menu_position' => 20,
-                'show_in_rest' => true,
-                'has_archive' => true,
-                'supports' => [
-                    'title',
-                    'editor',
-                    'thumbnail',
-                    'custom-fields'
+        $acf_post_type = get_option('acf_post_type');
+        $post_type = (!empty($acf_post_type) && post_type_exists($acf_post_type)) ? $acf_post_type : 'campaign';
+        if ( $post_type == 'campaign' ) {
+            register_post_type(
+                'campaign',
+                [
+                    'labels' => [
+                        'name' => __('Campaigns'),
+                        'singular_name' => __('Campaign'),
+                        'add_new' => _x('Add New', 'campaign'),
+                        'add_new_item' => __('Add New Campaign'),
+                        'edit_item' => __('Edit Campaign'),
+                        'new_item' => __('New Campaign'),
+                        'view_item' => __('View Campaign'),
+                        'search_items' => __('Search Campaigns'),
+                        'not_found' =>  __('Nothing found'),
+                        'not_found_in_trash' => __('Nothing found in Trash')
+                    ],
+                    'description' => 'Campaigns',
+                    'public' => true,
+                    'show_in_menu' => true,
+                    'menu_position' => 20,
+                    'show_in_rest' => true,
+                    'has_archive' => true,
+                    'supports' => [
+                        'title',
+                        'editor',
+                        'thumbnail',
+                        'custom-fields'
+                    ]
                 ]
-            ]
-        );
+            );
+        }
     }
 
 }
