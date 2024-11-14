@@ -32,6 +32,13 @@ function sync_campaigns() {
       require_once(CAMPAIGNS_BASE_DIR . 'lib/adapters/csl.php');
       CSL::sync();
     }
+
+    if( get_option('because_url') ) {
+      error_log('Syncing campaigns with BeCause');
+
+      require_once(CAMPAIGNS_BASE_DIR . 'lib/adapters/because.php');
+      Because::sync();
+    }
 }
 
 ?>
