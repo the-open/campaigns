@@ -9,13 +9,23 @@ class Because {
 
     public static function sync() {
         $because_url = get_option('because_url');
-        $because_json_url = $because_url . '/campaigns/v1/campaigns?per_page=100';
+        $because_json_url = $because_url . '/api/campaigns/v1/campaigns/query';
         $page = 0;
 
-        $request = wp_remote_get( $because_json_url . '&page=' . $page, array(
-            'headers' => array( 
+        $request = wp_remote_post( $because_json_url, array(
+            'headers' => array(
                 'x-request-id' => 'af7c1fe6-d669-414e-b066-e9733f0de7a8', // dummy value to keep the API happy
-            ) 
+            ),
+            'body' => json_encode(array(
+              'filter' => array(
+                'status' => 'STATUS_PUBLISHED',
+                'isFeatured' => true
+              ),
+              'pagination' => array(
+                'perPage' => 100,
+                'page' => $page
+              )
+            ))
         ));
 
 
@@ -48,10 +58,20 @@ class Because {
 
             $page++;
 
-            $request = wp_remote_get( $because_json_url . '&page=' . $page, array(
-            'headers' => array( 
-                'x-request-id' => 'af7c1fe6-d669-414e-b066-e9733f0de7a8', // dummy value to keep the API happy
-            ) 
+            $request = wp_remote_post( $because_json_url, array(
+                'headers' => array(
+                    'x-request-id' => 'af7c1fe6-d669-414e-b066-e9733f0de7a8', // dummy value to keep the API happy
+                ),
+                'body' => json_encode(array(
+                  'filter' => array(
+                    'status' => 'STATUS_PUBLISHED',
+                    'isFeatured' => true
+                  ),
+                  'pagination' => array(
+                    'perPage' => 100,
+                    'page' => $page
+                  )
+                ))
             ));
 
 
