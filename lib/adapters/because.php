@@ -35,7 +35,7 @@ class Because {
         }
 
         $body = wp_remote_retrieve_body( $request );
-        $campaigns = json_decode($body)->campaigns;
+        $campaigns = json_decode($body)->data->campaigns;
 
         while(!empty($campaigns)) {
             require_once(CAMPAIGNS_BASE_DIR . 'lib/campaign.php');
@@ -81,7 +81,7 @@ class Because {
             }
 
             $body = wp_remote_retrieve_body( $request );
-            $campaigns = json_decode($body)->campaigns;
+            $campaigns = json_decode($body)->data->campaigns;
         }
     }
 
