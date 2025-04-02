@@ -49,6 +49,7 @@ function campaigns_admin_menu() {
 function campaigns_admin_init() {
     register_setting('campaigns-settings', 'speakout_url');
     register_setting('campaigns-settings', 'csl_url');
+    register_setting('campaigns-settings', 'because_url');
     register_setting('campaigns-settings', 'acf_post_type');
 }
 
@@ -71,6 +72,13 @@ function campaigns_settings_page() {
             <tr valign="top">
             <th scope="row">CSL URL</th>
             <td><input type='text' name='csl_url' value="<?php echo esc_attr(get_option('csl_url')) ?>" style="width: 60%;"></td>
+            </tr>
+        </table>
+
+        <table class="form-table">
+            <tr valign="top">
+            <th scope="row">BeCause URL</th>
+            <td><input type='text' name='because_url' value="<?php echo esc_attr(get_option('because_url')) ?>" style="width: 60%;"></td>
             </tr>
         </table>
 
